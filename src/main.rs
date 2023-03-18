@@ -4,6 +4,8 @@ const MABV: [&str;13] = ["","J","F","M","A","Y","U","L","G","S","O","N","D"];
 
 fn main() {
     let time = Local::now();
+    let sweden = FixedOffset::east_opt(3600).unwrap().from_utc_datetime(&time.naive_utc());
+    
     println!("Current Time: {}", time.format("%Y-%m-%d %H:%M:%S %Z"));
     // seconds from midnight
     let seconds = time.num_seconds_from_midnight();
@@ -32,8 +34,8 @@ fn main() {
     println!("{}", jd);
     println!("{}.{}", jd-2400000,seconds*1000/86400);
 
-    println!("\n# Beat");
-    println!("{:.2}", (seconds as f32*1000.0/86400.0));
+    println!("\n# @beat");
+    println!("{:.2}", (sweden.num_seconds_from_midnight() as f32*1000.0/86400.0));
 
     println!("\n# EarthyDate");
     println!("{}{}{}", time.format("%y"), MABV[time.month() as usize], time.format("%d.%H%M"));
