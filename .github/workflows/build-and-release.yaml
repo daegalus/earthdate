@@ -1,0 +1,45 @@
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: release ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-pc-windows-gnu
+            archive: zip
+          - target: x86_64-unknown-linux-musl
+            archive: tar.xz
+          - target: x86_64-apple-darwin
+            archive: zip
+          - target: wasm32-wasi
+            archive: tar.xz
+    steps:
+      - uses: actions/checkout@master
+      - name: Build
+        id: compile
+        uses: rust-build/rust-build.action@v1.4.5
+        with:
+          RUSTTARGET: ${{ matrix.target }}
+          ARCHIVE_TYPES: ${{ matrix.archive }}
+      - name: Get Earthdate
+        id: earthdate
+        run: echo "earthdate=$(target/${{ matrix.target }}/release/earthdate)" >> "$GITHUB_OUTPUT"
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Binary
+          path: |
+            ${{ steps.compile.outputs.BUILT_ARCHIVE }}
+            ${{ steps.compile.outputs.BUILT_CHECKSUM }}
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ steps.earthdate.outputs.earthdate }}
+          tag_name: ${{ steps.earthdate.outputs.earthdate }}
