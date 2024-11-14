@@ -57,4 +57,5 @@ jobs:
           name: earthdate-${{ matrix.platform.os-name }}
           path: |
             target/${{ matrix.platform.target }}/release/earthdate
+            target/${{ matrix.platform.target }}/release/earthdate.exe
      
