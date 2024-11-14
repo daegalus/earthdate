@@ -41,6 +41,6 @@ jobs:
             artifacts/earthdate-linux-x86_64/earthdate-linux-x86_64
             artifacts/earthdate-linux-aarch64/earthdate-linux-aarch64
             artifacts/earthdate-linux-riscv64/earthdate-linux-riscv64
-            artifacts/earthdate-windows-x86_64/earthdate-windows-x86_64
+            artifacts/earthdate-windows-x86_64/earthdate-windows-x86_64.exe
             artifacts/earthdate-macos-x86_64/earthdate-macos-x86_64
             artifacts/earthdate-macos-aarch64/earthdate-macos-aarch64
