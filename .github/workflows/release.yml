@@ -27,7 +27,6 @@ jobs:
           mv artifacts/earthdate-linux-aarch64/earthdate artifacts/earthdate-linux-aarch64/earthdate-linux-aarch64
           mv artifacts/earthdate-linux-riscv64/earthdate artifacts/earthdate-linux-riscv64/earthdate-linux-riscv64
           mv artifacts/earthdate-windows-x86_64/earthdate.exe artifacts/earthdate-windows-x86_64/earthdate-windows-x86_64.exe
-          mv artifacts/earthdate-windows-aarch64/earthdate.exe artifacts/earthdate-windows-aarch64/earthdate-windows-aarch64.exe
           mv artifacts/earthdate-macos-x86_64/earthdate artifacts/earthdate-macos-x86_64/earthdate-macos-x86_64
           mv artifacts/earthdate-macos-aarch64/earthdate artifacts/earthdate-macos-aarch64/earthdate-macos-aarch64
       - name: Get Earthdate
@@ -43,6 +42,5 @@ jobs:
             artifacts/earthdate-linux-aarch64/earthdate-linux-aarch64
             artifacts/earthdate-linux-riscv64/earthdate-linux-riscv64
             artifacts/earthdate-windows-x86_64/earthdate-windows-x86_64
-            artifacts/earthdate-windows-aarch64/earthdate-windows-aarch64
             artifacts/earthdate-macos-x86_64/earthdate-macos-x86_64
             artifacts/earthdate-macos-aarch64/earthdate-macos-aarch64
