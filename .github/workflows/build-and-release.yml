@@ -31,11 +31,7 @@ jobs:
           RUSTTARGET: ${{ matrix.target }}
           ARCHIVE_TYPES: ${{ matrix.archive }}
       - name: Get folder structure
-        run: |
-          ls . && 
-          ls target &&
-          ls target/${{ matrix.target }} &&
-          ls target/${{ matrix.target }}/release
+        run: ls . && ls target && ls target/${{ matrix.target }} && ls target/${{ matrix.target }}/release
       - name: Get Earthdate
         id: earthdate
         run: echo "earthdate=$(target/${{ matrix.target }}/release/earthdate)" >> "$GITHUB_OUTPUT"
