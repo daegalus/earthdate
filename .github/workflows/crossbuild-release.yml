@@ -45,6 +45,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
       - name: Build binary
         id: compile
         uses: houseabsolute/actions-rust-cross@v0
@@ -54,7 +56,7 @@ jobs:
           args: "--locked --release"
           strip: true
       - name: Get folder structure
-        run: ls target/${{ matrix.platform.target }}
+        run: ls target
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -69,3 +71,5 @@ jobs:
         with:
           name: ${{ steps.earthdate.outputs.earthdate }}
           tag_name: ${{ steps.earthdate.outputs.earthdate }}
+          files: |
+            target/${{ matrix.platform.target }}/release/earthdate
