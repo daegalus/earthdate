@@ -10,6 +10,7 @@ jobs:
   release:
     name: Release - ${{ matrix.platform.os-name }}
     strategy:
+      fail-fast: false
       matrix:
         platform:
           - os-name: linux-x86_64
@@ -17,27 +18,27 @@ jobs:
             target: x86_64-unknown-linux-musl
 
           - os-name: linux-aarch64
-            runs-on: ubuntu-20.04
+            runs-on: ubuntu-24.04
             target: aarch64-unknown-linux-musl
 
-          - os-name: Linux-riscv64
-            runs-on: ubuntu-20.04
+          - os-name: linux-riscv64
+            runs-on: ubuntu-24.04
             target: riscv64gc-unknown-linux-gnu
 
-          - os-name: Windows-x86_64
+          - os-name: windows-x86_64
             runs-on: windows-latest
             target: x86_64-pc-windows-msvc
 
-          - os-name: Windows-aarch64
+          - os-name: windows-aarch64
             runs-on: windows-latest
             target: aarch64-pc-windows-msvc
 
-          - os-name: macOS-x86_64
-            runs-on: macOS-latest
+          - os-name: macos-x86_64
+            runs-on: macos-latest
             target: x86_64-apple-darwin
           
-          - os-name: macOS-aarch64
-            runs-on: macOS-latest
+          - os-name: macos-aarch64
+            runs-on: macos-latest
             target: aarch64-apple-darwin
 
     runs-on: ${{ matrix.platform.runs-on }}
@@ -53,7 +54,7 @@ jobs:
           args: "--locked --release"
           strip: true
       - name: Get folder structure
-        run: ls target/${{ matrix.platform.target }}/release
+        run: ls target/${{ matrix.platform.target }}
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -62,7 +63,7 @@ jobs:
             target/${{ matrix.platform.target }}/release/earthdate
       - name: Get Earthdate
         id: earthdate
-        run: echo "earthdate=$(target/${{ matrix.platform.target }}/release/earthdate)" >> "$GITHUB_OUTPUT"
+        run: echo "earthdate=$(target/${{ matrix.platform.target  }}/release/earthdate)" >> "$GITHUB_OUTPUT"
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
