@@ -32,9 +32,9 @@ jobs:
           ARCHIVE_TYPES: ${{ matrix.archive }}
       - name: Get folder structure
         run: |
-          ls .
-          ls target
-          ls target/${{ matrix.target }}
+          ls . && 
+          ls target &&
+          ls target/${{ matrix.target }} &&
           ls target/${{ matrix.target }}/release
       - name: Get Earthdate
         id: earthdate
