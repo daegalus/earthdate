@@ -31,7 +31,7 @@ jobs:
           RUSTTARGET: ${{ matrix.target }}
           ARCHIVE_TYPES: ${{ matrix.archive }}
       - name: Get folder structure
-        run: ls target/${{ matrix.target }} 
+        run: ls /github/workspace/output
       - name: Get folder structure part 2
         run: ls target/${{ matrix.target }}/release
       - name: Get Earthdate
