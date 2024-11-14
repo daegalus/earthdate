@@ -21,19 +21,28 @@ jobs:
           path: artifacts
       - name: Fix permissions
         run: chmod +x artifacts/earthdate-linux-x86_64/earthdate
+      - name: Rename all artifacts
+        run: |
+          mv artifacts/earthdate-linux-x86_64/earthdate artifacts/earthdate-linux-x86_64/earthdate-linux-x86_64
+          mv artifacts/earthdate-linux-aarch64/earthdate artifacts/earthdate-linux-aarch64/earthdate-linux-aarch64
+          mv artifacts/earthdate-linux-riscv64/earthdate artifacts/earthdate-linux-riscv64/earthdate-linux-riscv64
+          mv artifacts/earthdate-windows-x86_64/earthdate.exe artifacts/earthdate-windows-x86_64/earthdate-windows-x86_64.exe
+          mv artifacts/earthdate-windows-aarch64/earthdate.exe artifacts/earthdate-windows-aarch64/earthdate-windows-aarch64.exe
+          mv artifacts/earthdate-macos-x86_64/earthdate artifacts/earthdate-macos-x86_64/earthdate-macos-x86_64
+          mv artifacts/earthdate-macos-aarch64/earthdate artifacts/earthdate-macos-aarch64/earthdate-macos-aarch64
       - name: Get Earthdate
         id: earthdate
-        run: echo "earthdate=$(artifacts/earthdate-linux-x86_64/earthdate)" >> "$GITHUB_OUTPUT"
+        run: echo "earthdate=$(artifacts/earthdate-linux-x86_64/earthdate-linux-x86_64)" >> "$GITHUB_OUTPUT"
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           name: ${{ steps.earthdate.outputs.earthdate }}
           tag_name: ${{ steps.earthdate.outputs.earthdate }}
           files: |
-            artifacts/earthdate-linux-x86_64
-            artifacts/earthdate-linux-aarch64
-            artifacts/earthdate-linux-riscv64
-            artifacts/earthdate-windows-x86_64
-            artifacts/earthdate-windows-aarch64
-            artifacts/earthdate-macos-x86_64
-            artifacts/earthdate-macos-aarch64
+            artifacts/earthdate-linux-x86_64/earthdate-linux-x86_64
+            artifacts/earthdate-linux-aarch64/earthdate-linux-aarch64
+            artifacts/earthdate-linux-riscv64/earthdate-linux-riscv64
+            artifacts/earthdate-windows-x86_64/earthdate-windows-x86_64
+            artifacts/earthdate-windows-aarch64/earthdate-windows-aarch64
+            artifacts/earthdate-macos-x86_64/earthdate-macos-x86_64
+            artifacts/earthdate-macos-aarch64/earthdate-macos-aarch64
