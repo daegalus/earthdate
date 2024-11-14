@@ -1,4 +1,4 @@
-name: Crossbuild and Release
+name: Crossbuild
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   release:
-    name: Release - ${{ matrix.platform.os-name }}
+    name: Build - ${{ matrix.platform.os-name }}
     strategy:
       fail-fast: false
       matrix:
@@ -45,8 +45,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
       - name: Build binary
         id: compile
         uses: houseabsolute/actions-rust-cross@v0
@@ -60,16 +58,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: earthdate-${{ matrix.platform.target }}
+          name: earthdate-${{ matrix.platform.os-name }}
           path: |
             target/${{ matrix.platform.target }}/release/earthdate
-      - name: Get Earthdate
-        id: earthdate
-        run: echo "earthdate=$(target/${{ matrix.platform.target  }}/release/earthdate)" >> "$GITHUB_OUTPUT"
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          name: ${{ steps.earthdate.outputs.earthdate }}
-          tag_name: ${{ steps.earthdate.outputs.earthdate }}
-          files: |
-            target/${{ matrix.platform.target }}/release/earthdate
+     

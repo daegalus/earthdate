@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Download Artifacts
+        id: download-artifact-arch
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          github_token: ${{secrets.WORKFLOW_GH_PAT}}
+          workflow: crossbuild.yml
+          path: artifacts
+      - name: Get Earthdate
+        id: earthdate
+        run: echo "earthdate=$(artifacts/earthdate-linux-x86_64/earthdate)" >> "$GITHUB_OUTPUT"
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ steps.earthdate.outputs.earthdate }}
+          tag_name: ${{ steps.earthdate.outputs.earthdate }}
+          files: |
+            artifacts/earthdate-linux-x86_64
+            artifacts/earthdate-linux-aarch64
+            artifacts/earthdate-linux-riscv64
+            artifacts/earthdate-windows-x86_64
+            artifacts/earthdate-windows-aarch64
+            artifacts/earthdate-macos-x86_64
+            artifacts/earthdate-macos-aarch64
