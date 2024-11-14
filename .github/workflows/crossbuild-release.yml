@@ -52,6 +52,8 @@ jobs:
           target: ${{ matrix.platform.target }}
           args: "--locked --release"
           strip: true
+      - name: Get folder structure
+        run: ls target/${{ matrix.platform.target }}/release
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
