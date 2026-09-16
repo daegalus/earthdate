@@ -40,6 +40,25 @@ Creates a date that is based on recent years with variations.
 - `FullMetric`: Same as `Metric` but includes seconds/higher precision. (ex: 15:14:09 -> 593.16)
   - In this case, for formatting, it will be printed as `59316`
 
+## Comparing release tags
+
+Compare two Earthdates in the default `C20` / `Alpha` / `Metric` format:
+
+```sh
+earthdate compare 26U30.427 26S11.500
+# -1
+```
+
+The command prints `-1` when the first date is older, `0` when they are
+equal and `1` when the first date is newer. Every valid comparison exits
+successfully; invalid inputs exit with status `2` and an error on stderr.
+
+Months follow `J F M A Y U L G S O N D`, and the metric time suffix is
+compared as an integer (`.9` comes before `.10`). Invalid calendar dates,
+beats outside `0` to `999` and other Earthdate formats are rejected.
+
+Run the comparison regression tests with `cargo test --locked`.
+
 ## Beats
 
 You can optionally use this tool to just beats/metric seconds returned.

@@ -2,6 +2,8 @@ use chrono::prelude::*;
 use gumdrop::Options;
 use strum_macros::EnumString;
 
+mod comparison;
+
 const MABV: [&str;13] = ["","J","F","M","A","Y","U","L","G","S","O","N","D"];
 
 #[derive(Debug, Options)]
@@ -23,6 +25,18 @@ struct Cli {
 enum Command {
     #[options(help = "Get just metric time")]
     Beat(BeatArgs),
+    #[options(help = "Compare two default-format Earthdates; print -1, 0 or 1")]
+    Compare(CompareArgs),
+}
+
+#[derive(Debug, Options)]
+struct CompareArgs {
+    #[options(help = "print help message")]
+    help: bool,
+    #[options(free, required, help = "First Earthdate (C20/Alpha/Metric)")]
+    left: String,
+    #[options(free, required, help = "Second Earthdate (C20/Alpha/Metric)")]
+    right: String,
 }
 
 #[derive(Debug, Options)]
@@ -51,6 +65,20 @@ fn main() {
                 println!("{time:.*}", precision as usize, time=beat(time));
             }
         }
+        Command::Compare(args) => match comparison::compare(&args.left, &args.right) {
+            Ok(ordering) => println!(
+                "{}",
+                match ordering {
+                    std::cmp::Ordering::Less => -1,
+                    std::cmp::Ordering::Equal => 0,
+                    std::cmp::Ordering::Greater => 1,
+                }
+            ),
+            Err(message) => {
+                eprintln!("{message}");
+                std::process::exit(2);
+            }
+        },
     });
 }
 
