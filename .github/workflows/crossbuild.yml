@@ -14,7 +14,7 @@ jobs:
       matrix:
         platform:
           - os-name: linux-x86_64
-            runs-on: ubuntu-20.04
+            runs-on: ubuntu-24.04
             target: x86_64-unknown-linux-musl
 
           - os-name: linux-aarch64
@@ -40,12 +40,12 @@ jobs:
     runs-on: ${{ matrix.platform.runs-on }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Build binary
         id: compile
         uses: houseabsolute/actions-rust-cross@v0
         with:
-          command: ${{ matrix.platform.command }}
+          command: build
           target: ${{ matrix.platform.target }}
           args: "--locked --release"
           strip: true
@@ -58,4 +58,3 @@ jobs:
           path: |
             target/${{ matrix.platform.target }}/release/earthdate
             target/${{ matrix.platform.target }}/release/earthdate.exe
-     
